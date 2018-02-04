@@ -4,7 +4,7 @@
 
 Web service on Django to find nearest image to the uploaded one in database
 
-![GIF](https://github.com/Donskov7/find_nearest_image/blob/master/zedge.gif)
+[![Example](https://img.youtube.com/vi/WrgNBYMUhQw/0.jpg)](https://www.youtube.com/watch?v=WrgNBYMUhQw)
 
 # Dataset
 I used [mirflickr](http://press.liacs.nl/mirflickr/#sec_download) dataset as image corpus for database.
