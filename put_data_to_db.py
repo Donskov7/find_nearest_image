@@ -1,5 +1,5 @@
 import os
-import argpasre
+import argparse
 
 from sqldb.utils import create_connection, create_table, adapt_array, convert_array, insert
 from imglib.utils import VGG
