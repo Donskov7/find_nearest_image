@@ -27,7 +27,7 @@ Library is compatible with: __Python 2.7-3.6__.
 
 # How dose it work
 Database filled with **mirflickr** images. 
-It containes `[filename, hash, image_vector, image_alias]`:
+Each row containes `[filename, hash, image_vector, image_alias]`:
   - `filename`: path to image
   - `hash`: hash from image vector
   - `image_vector`: vector of floats describing the image. It's the "fc2" layer output from VGG16.
