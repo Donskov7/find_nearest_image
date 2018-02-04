@@ -18,31 +18,31 @@ def insert_docs(conn, table, doc_path, n=None, check_before_insert=False):
 
     model = VGG(top=1)
     to_insert = []
-	i = 0
+    i = 0
     for fname in listdir:
         doc_file = os.path.join(doc_path, fname)
-		# skip dirs
+        # skip dirs
         if not os.path.isfile(doc_file):
             continue
         doc_vec = model.predict(doc_file)
         doc_alias = model.predict(doc_file, True)[0][1]
         doc_hash = model.get_hash(doc_vec)
-		# skip already existed images
+        # skip already existed images
         if doc_hash in hash_existed:
             continue
         to_insert.append([doc_file, str(doc_hash), doc_vec, doc_alias])
-		i += 1
+        i += 1
         if (i % 100 == 0 or i == n) and to_insert:
             insert(conn, table, ['file', 'hash', 'vec', 'alias'], to_insert)
             to_insert = []
-			print('{} images have added to db'.format(i))
+            print('{} images have added to db'.format(i))
 
 
 def get_kwargs(kwargs):
     parser = argparse.ArgumentParser()
     parser.add_argument('--db', dest='db', action='store', help='/path/to/db_file')
     parser.add_argument('--image-path', dest='image_path', action='store', help='/path/to/image_dir')
-	parser.add_argument('--drop-prev-db', dest='drop_prev_db', action='store_true')
+    parser.add_argument('--drop-prev-db', dest='drop_prev_db', action='store_true')
     for key, value in parser.parse_args().__dict__.items():
         kwargs[key] = value
 
@@ -51,13 +51,13 @@ def main(*kargs, **kwargs):
     get_kwargs(kwargs)
     db_file = kwargs['db']
     img_path = kwargs['image_path']
-	drop_prev_db = kwargs['drop_prev_db']
+    drop_prev_db = kwargs['drop_prev_db']
 
     conn = create_connection(db_file)
 
-	if drop_prev_db:
-		sql_drop_table = 'DROP TABLE IF EXISTS myapp_images'
-		create_table(conn, sql_drop_table)
+    if drop_prev_db:
+        sql_drop_table = 'DROP TABLE IF EXISTS myapp_images'
+        create_table(conn, sql_drop_table)
 
     sql_create_table = """ CREATE TABLE IF NOT EXISTS myapp_images (
                                         id integer PRIMARY KEY AUTOINCREMENT,
