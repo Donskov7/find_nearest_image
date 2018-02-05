@@ -7,8 +7,10 @@
 
     <body>
         {% if document0 %}
-            <img src="{{document0}}" alt="img" class="img-responsive img-rounded">
-            <img src="{{document1}}" alt="img" class="img-responsive img-rounded">
+            Uploaded image
+            <img src="{{document0}}" alt="img" class="img-responsive img-rounded" height="256">
+            Related image
+            <img src="{{document1}}" alt="img" class="img-responsive img-rounded" height="256">
         {% else %}
             <p>No document.</p>
         {% endif %}
