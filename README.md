@@ -27,7 +27,7 @@ Library is compatible with: __Python 2.7-3.6__.
   `python manage.py runserver`
 3. go to `http://127.0.0.1:8000/` and try upload some image
 
-# How dose it work
+# How does it work
 Database filled with **mirflickr** images. 
 Each row containes `[filename, hash, image_vector, image_alias]`:
   - `filename`: path to image
