@@ -21,11 +21,17 @@ It should be uploaded to `media/documents` folder.
 Library is compatible with: __Python 2.7-3.6__.
 
 # How to use
-1. fill database with images 
-  `python put_data_to_db.py --db db.sqlite3 --image-path media/documents/mirflickr --drop-prev-db`
-2. run service 
-  `python manage.py runserver`
-3. go to `http://127.0.0.1:8000/` and try upload some image
+1. Fill database with images
+
+```python put_data_to_db.py --db db.sqlite3 --image-path media/documents/mirflickr --drop-prev-db```
+
+2. Run service
+
+```python manage.py runserver```
+
+3. Go to ```http://127.0.0.1:8000/``` 
+
+4. Try upload some image
 
 # How does it work
 Database filled with **mirflickr** images. 
