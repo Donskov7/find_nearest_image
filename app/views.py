@@ -10,7 +10,7 @@ from .models import Document
 from .forms import DocumentForm
 from .search import search_nearest
 
-from zedge.settings import MEDIA_ROOT, DATABASES, PHOTO_DIR, PHOTO_TABLE, PCA_MODEL_FILE, KDTREE_MODEL_FILE
+from main.settings import MEDIA_ROOT, DATABASES, PHOTO_DIR, PHOTO_TABLE, PCA_MODEL_FILE, KDTREE_MODEL_FILE
 from imglib.utils import VGG, PCA, KDTree
 
 MODEL = VGG()

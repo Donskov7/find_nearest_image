@@ -7,6 +7,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^pools/', include('myapp.urls')),
+    url(r'^pools/', include('app.urls')),
     url(r'^$', RedirectView.as_view(url='/pools/list/', permanent=True)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
