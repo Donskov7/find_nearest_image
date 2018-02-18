@@ -123,4 +123,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATICFILES_DIRS = (MEDIA_ROOT,)
 PCA_MODEL_FILE = os.path.join(BASE_DIR, 'pca.model')
-KDTREE__MODEL_FILE = os.path.join(BASE_DIR, 'kdtree.model')
+KDTREE_MODEL_FILE = os.path.join(BASE_DIR, 'kdtree.model')
