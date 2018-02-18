@@ -30,7 +30,7 @@ def list(request):
                 nearest_doc = search_nearest(DATABASES['default']['NAME'], PHOTO_TABLE, fname, MODEL, PCA_MODEL, KDTREE_MODEL)
                 if nearest_doc is not None:
                     data = {
-                            'document0': fname,
+                            'document0': os.path.join(PHOTO_DIR, '..', fname.split('/')[-1]),
                             'document1': os.path.join(PHOTO_DIR, nearest_doc['file'].split('/')[-1]),
                             'form': form
                     }
