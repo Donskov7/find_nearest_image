@@ -1,6 +1,10 @@
 import hashlib
 import numpy as np
+import pickle
 from scipy.spatial.distance import cosine
+
+from sklearn.neighbors import KDTree as KDTree_base
+from sklearn.decomposition import PCA as PCA_base
 
 from keras.models import Model
 from keras.preprocessing import image
@@ -29,6 +33,27 @@ class VGG(object):
         if vec is None:
             return None
         return hashlib.md5(' '.join([str(val) for val in vec]).encode('utf-8')).hexdigest()
+
+
+class KDTree(KDTree_base):
+    def load(self, fname):
+        self = pickle.load(open(fname, 'rb'))
+        return self
+
+    def save(self, fname):
+        pickle.dump(self, open(fname, 'wb'))
+        return self
+
+
+class PCA(PCA_base):
+    def load(self, fname):
+        self = pickle.load(open(fname, 'rb'))
+        return self
+
+    def save(self, fname):
+        pickle.dump(self, open(fname, 'wb'))
+        return self
+
 
 def find_nearest_doc(doc0, all_docs):
     nearest = None

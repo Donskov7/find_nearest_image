@@ -10,11 +10,12 @@ from .models import Document
 from .forms import DocumentForm
 from .search import search_nearest
 
-from zedge.settings import MEDIA_ROOT, DATABASES
-from imglib.utils import VGG
+from zedge.settings import MEDIA_ROOT, DATABASES, PCA_MODEL_FILE, KDTREE_MODEL_FILE
+from imglib.utils import VGG, PCA, KDTree
 
 MODEL = VGG()
-global GRAPH
+PCA_MODEL = PCA(n_components=300).load(PCA_MODEL_FILE)
+KDTREE_MODEL= KDTree([[0,1]], leaf_size=100).load(KDTREE_MODEL_FILE)
 GRAPH = tf.get_default_graph()
 
 def list(request):
@@ -26,7 +27,7 @@ def list(request):
             newdoc.save()
             fname = os.path.join(MEDIA_ROOT, str(newdoc.docfile))
             with GRAPH.as_default():
-                nearest_doc = search_nearest(DATABASES['default']['NAME'], 'myapp_images', fname, MODEL)
+                nearest_doc = search_nearest(DATABASES['default']['NAME'], 'myapp_images', fname, MODEL, PCA_MODEL, KDTREE_MODEL)
                 if nearest_doc is not None:
                     data = {
                             'document0': '../../media/{}'.format(newdoc.docfile),
