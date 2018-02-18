@@ -6,7 +6,7 @@ from sqldb.utils import create_connection, create_table, insert
 from imglib.utils import VGG, PCA, KDTree
 
 
-def prepare_docs(conn, table, doc_path, n=None, check_before_insert=False):
+def prepare_docs(doc_path, n=None):
     listdir = os.listdir(doc_path)
     if n is None:
         n = len(listdir)
@@ -22,7 +22,7 @@ def prepare_docs(conn, table, doc_path, n=None, check_before_insert=False):
         if not os.path.isfile(doc_file):
             continue
         vecs.append(model.predict(doc_file))
-        hashes.append(model.get_hash(doc_vec))
+        hashes.append(model.get_hash(vecs[-1]))
         files.append(doc_file)
     return vecs, hashes, files
 
@@ -65,13 +65,19 @@ def main(*kargs, **kwargs):
 
     pca = PCA(n_components=300)
     vecs_pca = pca.fit_transform(vecs)
-    pca.save(os.path.join(output_dir, 'pca.model'))
+    pca.save(os.path.join(output_dir, 'pca_{}.model'.format(table)))
 
     kdt = KDTree(vecs_pca, leaf_size=100, metric='minkowski')
-    kdt.save(os.path.join(output_dir, 'kdtree.model'))
+    kdt.save(os.path.join(output_dir, 'kdtree_{}.model'.format(table)))
 
     create_table(conn, sql_create_table)
-    insert(conn, table, ['file', 'hash', 'vec', 'vec_pca'], np.array([files, hashes, vecs, vecs_pca]).T)
+    n = len(vecs)
+    to_insert = []
+    for i in range(n):
+        to_insert.append([files[i], hashes[i], vecs[i], vecs_pca[i]])
+        if (i > 0 and (i % 1000 == 0)) or i == n-1:
+            insert(conn, table, ['file', 'hash', 'vec', 'vec_pca'], to_insert)
+            to_insert = []
 
 
 if __name__=='__main__':

@@ -10,7 +10,7 @@ from .models import Document
 from .forms import DocumentForm
 from .search import search_nearest
 
-from zedge.settings import MEDIA_ROOT, DATABASES, PCA_MODEL_FILE, KDTREE_MODEL_FILE
+from zedge.settings import MEDIA_ROOT, DATABASES, PHOTO_DIR, PHOTO_TABLE, PCA_MODEL_FILE, KDTREE_MODEL_FILE
 from imglib.utils import VGG, PCA, KDTree
 
 MODEL = VGG()
@@ -27,11 +27,11 @@ def list(request):
             newdoc.save()
             fname = os.path.join(MEDIA_ROOT, str(newdoc.docfile))
             with GRAPH.as_default():
-                nearest_doc = search_nearest(DATABASES['default']['NAME'], 'myapp_images', fname, MODEL, PCA_MODEL, KDTREE_MODEL)
+                nearest_doc = search_nearest(DATABASES['default']['NAME'], PHOTO_TABLE, fname, MODEL, PCA_MODEL, KDTREE_MODEL)
                 if nearest_doc is not None:
                     data = {
-                            'document0': '../../media/{}'.format(newdoc.docfile),
-                            'document1': '../../media/documents/mirflickr/{}'.format(nearest_doc['file'].split('/')[-1]),
+                            'document0': fname,
+                            'document1': os.path.join(PHOTO_DIR, nearest_doc['file'].split('/')[-1]),
                             'form': form
                     }
                     return render(request, 'list.html', data)
